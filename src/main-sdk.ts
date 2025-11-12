@@ -23,7 +23,7 @@ import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
     }
 
     const s = document.createElement("script");
-    s.src = `./dist/plugin-${type}.js`; // Có thể thay bằng CDN
+    s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.2/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
     s.async = true;
 
     s.onload = () => {
