@@ -311,7 +311,7 @@ var ARFPluginFloat = (function (exports) {
             <a class="banner" href="${clickUrl}" target="_blank"></a>
           </div>
         </body>
-        <script src="./dist/plugin-codeclogo.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.1/dist/plugin-codeclogo.min.js"></script>
       </html>
     `;
             doc.open();

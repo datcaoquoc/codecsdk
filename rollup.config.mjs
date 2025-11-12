@@ -22,21 +22,20 @@ function createConfig(input, name, outputFile) {
         plugins: [
           terser({
             format: {
-              comments: false, // xóa comment
+              comments: false,
             },
             compress: {
-              drop_console: true,   // bỏ console.log
-              drop_debugger: true,  //bỏ debugger
-              passes: 2,            // chạy nhiều vòng tối ưu hơn
-              pure_getters: true,   // giả định getter không có side-effect
-              // unsafe: true,         // tối ưu sâu hơn, nhưng nên test kỹ
+              drop_console: false, // giữ log khi test
+              drop_debugger: true,
+              passes: 2,
+              pure_getters: true,
             },
             mangle: {
-              // rút gọn các thuộc tính bắt đầu bằng _
-              properties: {
-                regex: /^_/,
-              },
-            },
+  properties: {
+    regex: /^_/,
+    reserved: ["_arfQueue", "_arfPlugins", "_arfProcessQueue", "__arf_sdk_loaded__"],
+  },
+}
           }),
         ],
       },
