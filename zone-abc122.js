@@ -1,7 +1,7 @@
 (function () {
   console.log("[Zone] zone-abc123.js loaded");
 
-  const SDK_URL = "https://cdn.example.com/sdk/main-sdk.js";
+  const SDK_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.1/dist/main-sdk.min.js";
   const ZONE_ID = "INV_OUT_2511050001";
   
 

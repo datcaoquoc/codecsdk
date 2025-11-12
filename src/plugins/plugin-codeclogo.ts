@@ -4,7 +4,7 @@
   const logo = document.createElement("div");
   logo.className = "codec-logo";
   logo.innerHTML = `
-    <div class="codec-logo" onclick="window.open('https://codecads.io', '_blank')">
+    <div class="codec-logo" onclick="window.open('https://codec.vn', '_blank')">
     <span class="c-text">C</span>
     <span class="copy-text">Codec Ads Solution</span>
     </div>
