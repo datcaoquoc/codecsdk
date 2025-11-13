@@ -16,3 +16,27 @@ export function generateUUIDv4(): string {
       16
     )}-${hex.slice(16, 20)}-${hex.slice(20)}`;
   }
+
+// hàm so sánh domain
+export function _isSameDomain(urlPage: string, urliv: string) {
+  // Hàm chuẩn hoá để chỉ lấy domain gốc
+  const normalizeDomain = (input: string) => {
+    if (!input) return null;
+
+    try {
+      // Nếu thiếu protocol thì thêm vào để URL constructor hoạt động
+      if (!/^https?:\/\//i.test(input)) {
+        input = 'https://' + input;
+      }
+      const u = new URL(input);
+      return u.hostname.replace(/^www\./, '').toLowerCase();
+    } catch {
+      return null;
+    }
+  };
+
+  const d1 = normalizeDomain(urlPage);
+  const d2 = normalizeDomain(urliv);
+
+  return d1 !== null && d1 === d2;
+}
