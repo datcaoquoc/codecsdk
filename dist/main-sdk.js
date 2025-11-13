@@ -139,7 +139,7 @@
                 return;
             }
             const s = document.createElement("script");
-            s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.3/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
+            s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.5/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
             s.async = true;
             s.onload = () => {
                 console.log(`[SDK] Plugin '${type}' loaded`);
