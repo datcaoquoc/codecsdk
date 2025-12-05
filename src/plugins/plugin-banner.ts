@@ -75,7 +75,7 @@ const refreshState: Record<
         <a href="${urlClick || "#"}" target="_blank"
            style="display:block;width:100%;height:100%;
            background:url('${creativeInfo?.content_url}') center/cover no-repeat;"></a>
-        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.7/dist/plugin-codeclogo.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.8/dist/plugin-codeclogo.min.js"></script>
       </body>
     </html>
   `);
