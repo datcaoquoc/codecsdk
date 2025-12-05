@@ -139,7 +139,7 @@
                 return;
             }
             const s = document.createElement("script");
-            s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.5/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
+            s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.7/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
             s.async = true;
             s.onload = () => {
                 console.log(`[SDK] Plugin '${type}' loaded`);
@@ -170,7 +170,7 @@
                 id: zone
             });
             try {
-                const res = await fetch("http://113.161.103.134:8097/api/v1/ad-sever/ads/inventory/outstream/creative-v2", {
+                const res = await fetch("http://localhost:3000/api/v1/ad-sever/ads/inventory/outstream/creative-v2", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
