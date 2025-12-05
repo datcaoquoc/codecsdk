@@ -62,7 +62,7 @@ async function _requestAd(zone: string): Promise<void> {
 
   try {
     const res = await fetch(
-      "http://localhost:3000/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
+      "http://192.168.1.26:3000/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
       {
         method: "POST",
         headers: {
