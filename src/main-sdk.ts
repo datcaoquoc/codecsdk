@@ -25,7 +25,7 @@ import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
     }
 
     const s = document.createElement("script");
-    s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.8/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
+    s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
     s.async = true;
 
     s.onload = () => {
@@ -62,7 +62,7 @@ async function _requestAd(zone: string): Promise<void> {
 
   try {
     const res = await fetch(
-      "http://192.168.1.26:3000/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
+      "https://3984a95b4909.ngrok-free.app/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
       {
         method: "POST",
         headers: {
