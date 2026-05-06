@@ -74,9 +74,7 @@ Dự án sử dụng **Rollup** để đóng gói và **TypeScript** để phát
 
 
 3.  **Chế độ Development**:
-    ```bash
-    npm run dev
-    ```
+    để chạy ở chế độ dev thì chạy file index.html trong file này đã import sẵn sdk ở chế độ dev rồi
 
 ## 📦 Sử dụng
 
