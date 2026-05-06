@@ -1,4 +1,4 @@
-import { _isSameDomain } from "./helper";
+import { _isSameDomain, _getSDKBaseUrl } from "./helper";
 import { EnvCollector } from "./monitor/collector";
 import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
 
@@ -17,6 +17,10 @@ import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
   (window as any)._arfQueue = (window as any)._arfQueue || ([] as QueueJob[]);
   (window as any)._arfPlugins = (window as any)._arfPlugins || ({} as Record<string, PluginFn>);
 
+  // Xác định base URL của SDK để load plugin cùng version
+  const SDK_BASE_URL = _getSDKBaseUrl();
+  (window as any)._arfBaseUrl = SDK_BASE_URL;
+
   // Helper: Load plugin nếu chưa có
   function _ensurePlugin(type: string, callback: () => void): void {
     if ((window as any)._arfPlugins[type]) {
@@ -25,7 +29,8 @@ import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
     }
 
     const s = document.createElement("script");
-    s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
+    const baseUrl = (window as any)._arfBaseUrl || _getSDKBaseUrl();
+    s.src = `${baseUrl}/plugin-${type}.min.js`;
     s.async = true;
 
     s.onload = () => {
@@ -53,55 +58,55 @@ import { AdSeverResponse, CreativeInfo, PluginParams } from "./type";
     }
   }
 
-async function _requestAd(zone: string): Promise<void> {
-  console.log("[SDK] → Gọi API lấy quảng cáo...");
+  async function _requestAd(zone: string): Promise<void> {
+    console.log("[SDK] → Gọi API lấy quảng cáo...");
 
-  const payload = EnvCollector._getPayload({
-    id: zone
-  })
+    const payload = EnvCollector._getPayload({
+      id: zone
+    })
 
-  try {
-    const res = await fetch(
-      "https://3984a95b4909.ngrok-free.app/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "*/*",
-          "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
-        },
-        body: JSON.stringify(payload),
+    try {
+      const res = await fetch(
+        "http://113.161.103.134:8097/api/v1/ad-sever/ads/inventory/outstream/creative-v2",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const json = await res.json();
+      console.log("[SDK] ← Response:", json);
+
+      if (json.success && json.code === 201 && json.data?.src) {
+        const script = document.createElement("script");
+        script.text = json.data.src;
+        document.head.appendChild(script);
+        script.remove();
+        console.log("[SDK] ✅ Đã thực thi script callback");
+      } else {
+        console.warn("[SDK] ⚠️ Không có data.src hợp lệ trong response");
       }
-    );
-
-    const json = await res.json();
-    console.log("[SDK] ← Response:", json);
-
-    if (json.success && json.code === 201 && json.data?.src) {
-      const script = document.createElement("script");
-      script.text = json.data.src;
-      document.head.appendChild(script);
-      script.remove();
-      console.log("[SDK] ✅ Đã thực thi script callback");
-    } else {
-      console.warn("[SDK] ⚠️ Không có data.src hợp lệ trong response");
+    } catch (err) {
+      console.error("[SDK] ❌ Lỗi khi gọi adserver:", err);
     }
-  } catch (err) {
-    console.error("[SDK] ❌ Lỗi khi gọi adserver:", err);
   }
-}
 
   // Callback từ SSP
   (window as any).sspcallback = function (payload: AdSeverResponse): void {
     console.log("[SDK] sspcallback() data:", payload);
-    
+
     //* hiện tại ad sever chỉ trả về 1 campaign và 1 creative để phát quảng cáo cho 1 slot nên lấy quảng cáo như này
     //* nếu sau đổi luồng => 1 slot gọi về ad sever để lấy quảng cáo => trả về nhiều campaign + nhiều creative cho sdk tự chọn thì viết hàm xử lý tại đây là đc
     const campaign = payload.data?.[0];
     const creative = campaign?.creatives?.[0];
 
     // nếu k phân biệt được type thì k hiển thị qc nữa
-    if(!payload.formatType) throw new Error("lỗi k có format")
+    if (!payload.formatType) throw new Error("lỗi k có format")
 
     if (!creative) {
       console.warn("[SDK] No ad creative found in payload");
@@ -112,7 +117,7 @@ async function _requestAd(zone: string): Promise<void> {
     _ensurePlugin(payload.formatType, () => {
       const pluginFn = (window as any)._arfPlugins[payload.formatType];
       if (typeof pluginFn === "function") {
-        pluginFn({ 
+        pluginFn({
           campaignId: campaign.campaignId,
           creativeInfo: creative,
           slotId: payload?.slotId,
@@ -121,7 +126,7 @@ async function _requestAd(zone: string): Promise<void> {
           unit: payload.unit,
           userId: payload.userId,
           options: payload.ext.options
-         } as PluginParams);
+        } as PluginParams);
       } else {
         console.warn(`[SDK] Plugin '${payload.formatType}' không khả dụng.`);
       }
@@ -129,18 +134,18 @@ async function _requestAd(zone: string): Promise<void> {
   };
 
   // Render Zone
-  function _renderZone(params: {_zone: string, _domain: string, _device: string}): void {
+  function _renderZone(params: { _zone: string, _domain: string, _device: string }): void {
     const _deviceType = EnvCollector._getDeviceType()
     const _pageInfo = EnvCollector._getPageInfo()
 
     console.log("params", params);
 
     // nếu khác device
-    if(_deviceType.toLocaleLowerCase() !== params._device.toLocaleLowerCase()) return
+    if (_deviceType.toLocaleLowerCase() !== params._device.toLocaleLowerCase()) return
 
     // so sánh domain
-    if(!_isSameDomain(_pageInfo.url, params._domain)) return
-    
+    if (!_isSameDomain(_pageInfo.url, params._domain)) return
+
     _requestAd(params._zone);
   }
 

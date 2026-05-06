@@ -1,3 +1,5 @@
+import { SDK_DEFAULT_BASE_URL } from "./config";
+
 export function generateUUIDv4(): string {
     if (typeof crypto !== "undefined" && crypto.randomUUID) {
       // Trình duyệt hiện đại có hỗ trợ sẵn
@@ -39,4 +41,25 @@ export function _isSameDomain(urlPage: string, urliv: string) {
   const d2 = normalizeDomain(urliv);
 
   return d1 !== null && d1 === d2;
+}
+
+/**
+ * Lấy base URL của SDK đang chạy để load các plugin động từ cùng một nguồn (CDN hoặc local)
+ * @returns {string} Base URL (không có dấu / ở cuối)
+ */
+export function _getSDKBaseUrl(): string {
+  const DEFAULT_BASE = SDK_DEFAULT_BASE_URL;
+  try {
+    const currentScript = document.currentScript as HTMLScriptElement;
+    if (currentScript && currentScript.src) {
+      const src = currentScript.src;
+      // Nếu load từ CDN jsdelivr hoặc tương tự, lấy đến thư mục dist/
+      if (src.includes("/dist/")) {
+        return src.substring(0, src.lastIndexOf("/"));
+      }
+    }
+  } catch (e) {
+    // console.warn("[SDK] Cannot detect currentScript, using default base URL");
+  }
+  return DEFAULT_BASE;
 }

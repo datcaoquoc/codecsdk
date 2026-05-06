@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    /**
+     * Cấu hình mặc định cho SDK
+     */
+    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist";
+
     // hàm so sánh domain
     function _isSameDomain(urlPage, urliv) {
         // Hàm chuẩn hoá để chỉ lấy domain gốc
@@ -22,6 +27,27 @@
         const d1 = normalizeDomain(urlPage);
         const d2 = normalizeDomain(urliv);
         return d1 !== null && d1 === d2;
+    }
+    /**
+     * Lấy base URL của SDK đang chạy để load các plugin động từ cùng một nguồn (CDN hoặc local)
+     * @returns {string} Base URL (không có dấu / ở cuối)
+     */
+    function _getSDKBaseUrl() {
+        const DEFAULT_BASE = SDK_DEFAULT_BASE_URL;
+        try {
+            const currentScript = document.currentScript;
+            if (currentScript && currentScript.src) {
+                const src = currentScript.src;
+                // Nếu load từ CDN jsdelivr hoặc tương tự, lấy đến thư mục dist/
+                if (src.includes("/dist/")) {
+                    return src.substring(0, src.lastIndexOf("/"));
+                }
+            }
+        }
+        catch (e) {
+            // console.warn("[SDK] Cannot detect currentScript, using default base URL");
+        }
+        return DEFAULT_BASE;
     }
 
     class EnvCollector {
@@ -132,6 +158,9 @@
         window.__arf_sdk_loaded__ = true;
         window._arfQueue = window._arfQueue || [];
         window._arfPlugins = window._arfPlugins || {};
+        // Xác định base URL của SDK để load plugin cùng version
+        const SDK_BASE_URL = _getSDKBaseUrl();
+        window._arfBaseUrl = SDK_BASE_URL;
         // Helper: Load plugin nếu chưa có
         function _ensurePlugin(type, callback) {
             if (window._arfPlugins[type]) {
@@ -139,7 +168,8 @@
                 return;
             }
             const s = document.createElement("script");
-            s.src = `https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-${type}.min.js`; // Có thể thay bằng CDN
+            const baseUrl = window._arfBaseUrl || _getSDKBaseUrl();
+            s.src = `${baseUrl}/plugin-${type}.min.js`;
             s.async = true;
             s.onload = () => {
                 console.log(`[SDK] Plugin '${type}' loaded`);
@@ -170,7 +200,7 @@
                 id: zone
             });
             try {
-                const res = await fetch("https://3984a95b4909.ngrok-free.app/api/v1/ad-sever/ads/inventory/outstream/creative-v2", {
+                const res = await fetch("http://113.161.103.134:8097/api/v1/ad-sever/ads/inventory/outstream/creative-v2", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 
 function createConfig(input, name, outputFile) {
   return {
@@ -31,11 +31,11 @@ function createConfig(input, name, outputFile) {
               pure_getters: true,
             },
             mangle: {
-  properties: {
-    regex: /^_/,
-    reserved: ["_arfQueue", "_arfPlugins", "_arfProcessQueue", "__arf_sdk_loaded__"],
-  },
-}
+              properties: {
+                regex: /^_/,
+                reserved: ["_arfQueue", "_arfPlugins", "_arfProcessQueue", "__arf_sdk_loaded__"],
+              },
+            }
           }),
         ],
       },

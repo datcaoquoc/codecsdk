@@ -2,6 +2,7 @@
 
 import { AdTracking } from "../monitor/genTracking";
 import { CreativeInfo, PluginParams } from "../type";
+import { SDK_DEFAULT_BASE_URL } from "../config";
 
 // Biến toàn cục để theo dõi refresh từng zone
 const refreshState: Record<
@@ -75,7 +76,7 @@ const refreshState: Record<
         <a href="${urlClick || "#"}" target="_blank"
            style="display:block;width:100%;height:100%;
            background:url('${creativeInfo?.content_url}') center/cover no-repeat;"></a>
-        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-codeclogo.min.js"></script>
+        <script src="${(window as any)._arfBaseUrl || SDK_DEFAULT_BASE_URL}/plugin-codeclogo.min.js"></script>
       </body>
     </html>
   `);

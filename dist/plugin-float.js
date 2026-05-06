@@ -135,6 +135,11 @@ var ARFPluginFloat = (function (exports) {
     // Export global
     window.AdTracking = new AdTracking();
 
+    /**
+     * Cấu hình mặc định cho SDK
+     */
+    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist";
+
     // ==== Plugin Float (TypeScript) ====
     // Float quảng cáo có vị trí, auto-hide, iframe, animation fade in/out
     // Hỗ trợ nhiều float cùng vị trí (tự động xếp tầng)
@@ -311,7 +316,7 @@ var ARFPluginFloat = (function (exports) {
             <a class="banner" href="${clickUrl}" target="_blank"></a>
           </div>
         </body>
-        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-codeclogo.min.js"></script>
+        <script src="${window._arfBaseUrl || SDK_DEFAULT_BASE_URL}/plugin-codeclogo.min.js"></script>
       </html>
     `;
             doc.open();

@@ -4,6 +4,7 @@
 
 import { AdTracking } from "../monitor/genTracking";
 import { PluginParams } from "../type";
+import { SDK_DEFAULT_BASE_URL } from "../config";
 
 export enum Position {
   BOTTOM_LEFT = "bottom-left",
@@ -197,7 +198,7 @@ export enum Position {
             <a class="banner" href="${clickUrl}" target="_blank"></a>
           </div>
         </body>
-        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-codeclogo.min.js"></script>
+        <script src="${(window as any)._arfBaseUrl || SDK_DEFAULT_BASE_URL}/plugin-codeclogo.min.js"></script>
       </html>
     `;
 

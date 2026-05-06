@@ -135,6 +135,11 @@
     // Export global
     window.AdTracking = new AdTracking();
 
+    /**
+     * Cấu hình mặc định cho SDK
+     */
+    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist";
+
     // ==== Plugin Banner (TypeScript) ====
     // Biến toàn cục để theo dõi refresh từng zone
     const refreshState = {};
@@ -196,7 +201,7 @@
         <a href="${urlClick || "#"}" target="_blank"
            style="display:block;width:100%;height:100%;
            background:url('${creativeInfo === null || creativeInfo === void 0 ? void 0 : creativeInfo.content_url}') center/cover no-repeat;"></a>
-        <script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/plugin-codeclogo.min.js"></script>
+        <script src="${window._arfBaseUrl || SDK_DEFAULT_BASE_URL}/plugin-codeclogo.min.js"></script>
       </body>
     </html>
   `);
