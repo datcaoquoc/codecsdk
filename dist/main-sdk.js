@@ -4,7 +4,7 @@
     /**
      * Cấu hình mặc định cho SDK
      */
-    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist";
+    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.10/dist";
 
     // hàm so sánh domain
     function _isSameDomain(urlPage, urliv) {
