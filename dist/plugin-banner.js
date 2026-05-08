@@ -138,7 +138,7 @@
     /**
      * Cấu hình mặc định cho SDK
      */
-    const SDK_DEFAULT_BASE_URL = "https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.10/dist";
+    const SDK_DEFAULT_BASE_URL = "http://113.161.103.134:8081/dist";
 
     // ==== Plugin Banner (TypeScript) ====
     // Biến toàn cục để theo dõi refresh từng zone

@@ -63,13 +63,19 @@ Dự án sử dụng **Rollup** để đóng gói và **TypeScript** để phát
     ```
 
 2.  **Build**:
-    - lưu ý trước khi build cần update version trong file config.ts
+    <!-- - lưu ý trước khi build cần update version trong file config.ts
     - chạy lệnh: npm run build
     - Các file kết quả sẽ nằm trong thư mục `dist/`.
-    - tạo tag: git tag {version} && git push origin {version}
- ```bash
+    - tạo tag: git tag {version} && git push origin {version} -->
+ <!-- ```bash
     git tag v1.0.10
-    git push origin v1.0.10
+    git push origin v1.0.10 -->
+
+     ```
+    - B1: chạy lệnh
+    npm run build
+
+    - B2: push folder dist lên server
     ```
 
 
@@ -81,7 +87,7 @@ Dự án sử dụng **Rollup** để đóng gói và **TypeScript** để phát
 Nhúng SDK vào trang web:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/datcaoquoc/codecsdk@v1.0.9/dist/main-sdk.min.js" async></script>
+<script src="https://cdn.jsdelivr./gh/datcaoquoc/codecsdk@v1.0.9/dist/main-sdk.min.js" async></script>
 ```
 
 ---
